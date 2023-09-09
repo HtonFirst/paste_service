@@ -10,4 +10,6 @@ public class PasteserviceApplication {
 		SpringApplication.run(PasteserviceApplication.class, args);
 	}
 
+
+
 }
