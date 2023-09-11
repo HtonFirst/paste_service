@@ -1,26 +1,32 @@
 package com.alex.pasteservice.controller;
 
 import com.alex.pasteservice.api.requests.PasteBoxRequest;
+import com.alex.pasteservice.api.responses.PasteBoxResponse;
+import com.alex.pasteservice.api.responses.PasteBoxUrlResponse;
+import com.alex.pasteservice.service.PasteBoxService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class PasteBoxController {
 
+    private final PasteBoxService service;
+
     @GetMapping("/")
-    public Collection<String> getPublicPasteList() {
-        return Collections.emptyList();
+    public List<PasteBoxResponse> getPublicPasteList() {
+        return service.getFirstPublikPastBoxes();
     }
 
     @GetMapping("/{hash}")
-    public String getByHash(@PathVariable String hash) {
-        return "hash = " + hash;
+    public PasteBoxResponse getByHash(@PathVariable String hash) {
+        return service.getByHash(hash);
     }
 
     @PostMapping("/")
-    public String  add(@RequestBody PasteBoxRequest request) {
-        return  request.getData();
+    public PasteBoxUrlResponse add(@RequestBody PasteBoxRequest request) {
+        return  service.create(request);
     }
 }
